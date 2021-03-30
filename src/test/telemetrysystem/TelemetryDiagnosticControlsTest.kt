@@ -1,10 +1,26 @@
 package tddmicroexercises.telemetrysystem
 
+import org.junit.Assert
+import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Test
+import telemetrysystem.TelemetryDiagnosticControls
+import telemetrysystem.TelemetryClientDouble
 
 class TelemetryDiagnosticControlsTest {
 
+    private lateinit var telemetry: TelemetryDiagnosticControls
+    private lateinit var client: TelemetryClientDouble
+
+    @Before
+    fun setUp() {
+        client = TelemetryClientDouble()
+        telemetry = TelemetryDiagnosticControls(client)
+    }
+
     @Test
-    fun CheckTransmission_should_send_a_diagnostic_message_and_receive_a_status_message_response() {
+    fun `should disconnect`() {
+        telemetry.checkTransmission()
+        assertTrue(client.wasDisconnected)
     }
 }

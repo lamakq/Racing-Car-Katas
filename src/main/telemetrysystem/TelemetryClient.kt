@@ -2,7 +2,7 @@ package telemetrysystem
 
 import java.util.*
 
-class TelemetryClient {
+open class TelemetryClient {
 
     var onlineStatus: Boolean = false
         private set
@@ -21,7 +21,7 @@ class TelemetryClient {
         onlineStatus = success
     }
 
-    fun disconnect() {
+    open fun disconnect() {
         onlineStatus = false
     }
 

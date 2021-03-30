@@ -1,14 +1,9 @@
 package telemetrysystem
 
-class TelemetryDiagnosticControls {
+class TelemetryDiagnosticControls(private val telemetryClient: TelemetryClient = TelemetryClient()) {
     private val DiagnosticChannelConnectionString = "*111#"
 
-    private val telemetryClient: TelemetryClient
     var diagnosticInfo = ""
-
-    init {
-        telemetryClient = TelemetryClient()
-    }
 
     @Throws(Exception::class)
     fun checkTransmission() {
@@ -28,5 +23,14 @@ class TelemetryDiagnosticControls {
 
         telemetryClient.send(TelemetryClient.DIAGNOSTIC_MESSAGE)
         diagnosticInfo = telemetryClient.receive()
+    }
+}
+
+class TelemetryClientDouble: TelemetryClient() {
+
+    var wasDisconnected: Boolean = false
+
+    override fun disconnect() {
+        wasDisconnected = true
     }
 }
