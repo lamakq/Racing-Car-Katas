@@ -5,12 +5,13 @@ import java.util.*
 open class TelemetryClient {
 
     var onlineStatus: Boolean = false
-        private set
+        protected set
+
     private var diagnosticMessageResult: String = ""
 
     private val connectionEventsSimulator = Random(42)
 
-    fun connect(telemetryServerConnectionString: String?) {
+    open fun connect(telemetryServerConnectionString: String?) {
         if (telemetryServerConnectionString == null || "" == telemetryServerConnectionString) {
             throw IllegalArgumentException()
         }

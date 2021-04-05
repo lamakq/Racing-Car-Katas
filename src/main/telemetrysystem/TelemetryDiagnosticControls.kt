@@ -1,5 +1,7 @@
 package telemetrysystem
 
+import org.junit.Assert.*
+
 class TelemetryDiagnosticControls(private val telemetryClient: TelemetryClient = TelemetryClient()) {
     private val DiagnosticChannelConnectionString = "*111#"
 
@@ -23,14 +25,5 @@ class TelemetryDiagnosticControls(private val telemetryClient: TelemetryClient =
 
         telemetryClient.send(TelemetryClient.DIAGNOSTIC_MESSAGE)
         diagnosticInfo = telemetryClient.receive()
-    }
-}
-
-class TelemetryClientDouble: TelemetryClient() {
-
-    var wasDisconnected: Boolean = false
-
-    override fun disconnect() {
-        wasDisconnected = true
     }
 }
