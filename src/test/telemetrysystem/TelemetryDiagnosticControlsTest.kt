@@ -26,6 +26,13 @@ class TelemetryDiagnosticControlsTest {
             client.retried(3)
         }
     }
+
+    @Test
+    fun `should disconnect before connecting`() {
+        val client = ReconnectTelemetryClient()
+        TelemetryDiagnosticControls(client).checkTransmission()
+        client.connectedAfterDisconnecting()
+    }
 }
 
 open class TelemetryClientDouble: TelemetryClient() {
@@ -34,7 +41,7 @@ open class TelemetryClientDouble: TelemetryClient() {
     override fun disconnect() {}
 }
 
-class OfflineTelemetryClient: TelemetryClientDouble() {
+open class OfflineTelemetryClient: TelemetryClientDouble() {
     override fun offline() = true
 }
 
@@ -45,5 +52,24 @@ class RetryTelemetryClient: TelemetryClientDouble() {
     }
     fun retried(times: Int) {
         assertEquals(times, retries)
+    }
+}
+
+class ReconnectTelemetryClient: OfflineTelemetryClient() {
+    var disconnected = false
+    var connectedAfterDisconnecting = false
+
+    override fun disconnect() {
+        disconnected = true
+    }
+    override fun connect(telemetryServerConnectionString: String?) {
+        assert(disconnected)
+        connectedAfterDisconnecting = true
+    }
+
+    override fun offline() = !connectedAfterDisconnecting
+
+    fun connectedAfterDisconnecting() {
+        assertEquals(true, connectedAfterDisconnecting)
     }
 }

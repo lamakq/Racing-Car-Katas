@@ -9,16 +9,22 @@ class TelemetryDiagnosticControls(private val telemetryClient: TelemetryClient =
     fun checkTransmission() {
         diagnosticInfo = ""
 
-        telemetryClient.disconnect()
-
+        disconnect()
         connect()
-
-        if (telemetryClient.offline()) {
-            throw Exception("Unable to connect.")
-        }
+        throwErrorIfOffline()
 
         telemetryClient.send(TelemetryClient.DIAGNOSTIC_MESSAGE)
         diagnosticInfo = telemetryClient.receive()
+    }
+
+    private fun disconnect() {
+        telemetryClient.disconnect()
+    }
+
+    private fun throwErrorIfOffline() {
+        if (telemetryClient.offline()) {
+            throw Exception("Unable to connect.")
+        }
     }
 
     private fun connect() {
