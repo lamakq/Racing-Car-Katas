@@ -11,11 +11,11 @@ class TelemetryDiagnosticControlsTest {
 
     @Test(expected = Exception::class)
     fun `should throw error when offline`() {
-        TelemetryDiagnosticControls(OfflineTelemtryClient())
+        TelemetryDiagnosticControls(OfflineTelemetryClient())
             .checkTransmission()
     }
 }
 
-class OfflineTelemtryClient: TelemetryClient() {
+class OfflineTelemetryClient: TelemetryClient() {
     override fun offline() = true
 }
