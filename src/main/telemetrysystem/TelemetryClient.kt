@@ -1,6 +1,5 @@
 package telemetrysystem
 
-import org.junit.Assert
 import java.util.*
 
 open class TelemetryClient {

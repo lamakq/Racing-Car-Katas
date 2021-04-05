@@ -28,11 +28,17 @@ class TelemetryDiagnosticControlsTest {
     }
 }
 
-class OfflineTelemetryClient: TelemetryClient() {
+open class TelemetryClientDouble: TelemetryClient() {
+    override fun offline() = false
+    override fun connect(telemetryServerConnectionString: String?) {}
+    override fun disconnect() {}
+}
+
+class OfflineTelemetryClient: TelemetryClientDouble() {
     override fun offline() = true
 }
 
-class RetryTelemetryClient: TelemetryClient() {
+class RetryTelemetryClient: TelemetryClientDouble() {
     var retries = 0
     override fun connect(telemetryServerConnectionString: String?) {
         retries++
