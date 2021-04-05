@@ -1,7 +1,5 @@
 package telemetrysystem
 
-import org.junit.Assert.*
-
 class TelemetryDiagnosticControls(private val telemetryClient: TelemetryClient = TelemetryClient()) {
     private val DiagnosticChannelConnectionString = "*111#"
 
@@ -14,12 +12,12 @@ class TelemetryDiagnosticControls(private val telemetryClient: TelemetryClient =
         telemetryClient.disconnect()
 
         var retryLeft = 3
-        while (telemetryClient.onlineStatus == false && retryLeft > 0) {
+        while (telemetryClient.offline() && retryLeft > 0) {
             telemetryClient.connect(DiagnosticChannelConnectionString)
             retryLeft -= 1
         }
 
-        if (telemetryClient.onlineStatus == false) {
+        if (telemetryClient.offline()) {
             throw Exception("Unable to connect.")
         }
 

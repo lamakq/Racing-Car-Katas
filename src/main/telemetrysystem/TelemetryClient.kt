@@ -1,15 +1,17 @@
 package telemetrysystem
 
+import org.junit.Assert
 import java.util.*
 
 open class TelemetryClient {
 
-    var onlineStatus: Boolean = false
-        protected set
+    private var onlineStatus: Boolean = false
 
     private var diagnosticMessageResult: String = ""
 
     private val connectionEventsSimulator = Random(42)
+
+    fun offline() = !onlineStatus
 
     open fun connect(telemetryServerConnectionString: String?) {
         if (telemetryServerConnectionString == null || "" == telemetryServerConnectionString) {
