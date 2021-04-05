@@ -11,7 +11,7 @@ open class TelemetryClient {
 
     private val connectionEventsSimulator = Random(42)
 
-    fun offline() = !onlineStatus
+    open fun offline() = !onlineStatus
 
     open fun connect(telemetryServerConnectionString: String?) {
         if (telemetryServerConnectionString == null || "" == telemetryServerConnectionString) {
