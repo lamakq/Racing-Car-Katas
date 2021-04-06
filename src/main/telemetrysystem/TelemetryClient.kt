@@ -26,7 +26,7 @@ open class TelemetryClient {
         onlineStatus = false
     }
 
-    fun send(message: String?) {
+    open fun send(message: String?) {
         if (message == null || "" == message) {
             throw IllegalArgumentException()
         }
