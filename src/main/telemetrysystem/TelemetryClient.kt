@@ -48,25 +48,9 @@ open class TelemetryClient {
     }
 
     fun receive(): String {
-        var message: String
-
-        if (diagnosticMessageResult == null || "" == diagnosticMessageResult) {
-            // simulate a received message (just for illustration - not needed for this exercise)
-            message = ""
-            val messageLength = connectionEventsSimulator.nextInt(50) + 60
-            for (i in messageLength downTo 0) {
-                message += connectionEventsSimulator.nextInt(40).toChar().toInt() + 86
-            }
-
-        } else {
-            message = diagnosticMessageResult
-            diagnosticMessageResult = ""
-        }
+        val message = diagnosticMessageResult
+        diagnosticMessageResult = ""
 
         return message
-    }
-
-    companion object {
-        val DIAGNOSTIC_MESSAGE = "AT#UD"
     }
 }
