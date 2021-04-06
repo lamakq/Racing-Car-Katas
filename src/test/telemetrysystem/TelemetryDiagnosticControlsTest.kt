@@ -1,8 +1,6 @@
 package telemetrysystem
 
 import org.junit.Test
-import telemetrysystem.TelemetryClient.Companion.DIAGNOSTIC_MESSAGE
-import kotlin.test.assertEquals
 
 class TelemetryDiagnosticControlsTest {
 
@@ -10,17 +8,17 @@ class TelemetryDiagnosticControlsTest {
     fun `should check if correct message sent`() {
         val client = TelemetryClientDouble()
         TelemetryDiagnosticControls(client).checkTransmission()
-        client.diagnosticMessageMatches(DIAGNOSTIC_MESSAGE)
+        client.messageSent()
     }
 }
 
 class TelemetryClientDouble: TelemetryClient() {
-    var message: String? = null
-    override fun send(message: String?) {
-        this.message = message
+    var sent = false
+    override fun send() {
+        sent = true
     }
 
-    fun diagnosticMessageMatches(diagnosticMessage: String) {
-        assertEquals(diagnosticMessage, message)
+    fun messageSent() {
+        assert(sent)
     }
 }

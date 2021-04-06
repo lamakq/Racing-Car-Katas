@@ -1,7 +1,5 @@
 package telemetrysystem
 
-import org.junit.Assert.*
-
 class TelemetryDiagnosticControls(private val telemetryClient: TelemetryClient = TelemetryClient()) {
     private val DiagnosticChannelConnectionString = "*111#"
 
@@ -23,7 +21,7 @@ class TelemetryDiagnosticControls(private val telemetryClient: TelemetryClient =
             throw Exception("Unable to connect.")
         }
 
-        telemetryClient.send(TelemetryClient.DIAGNOSTIC_MESSAGE)
+        telemetryClient.send()
         diagnosticInfo = telemetryClient.receive()
     }
 }
