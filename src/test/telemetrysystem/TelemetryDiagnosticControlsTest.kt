@@ -1,4 +1,4 @@
-package tddmicroexercises.telemetrysystem
+package telemetrysystem
 
 import org.junit.Test
 
