@@ -53,4 +53,6 @@ open class TelemetryClient {
 
         return message
     }
+
+    // nullable infrastructure pattern
 }
