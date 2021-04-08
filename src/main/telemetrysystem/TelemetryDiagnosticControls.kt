@@ -1,32 +1,33 @@
 package telemetrysystem
 
-class TelemetryDiagnosticControls {
+import junit.framework.Assert.assertEquals
+
+class TelemetryDiagnosticControls(private val client: TelemetryClient) {
     private val DiagnosticChannelConnectionString = "*111#"
 
-    private val telemetryClient: TelemetryClient
-    var diagnosticInfo = ""
-
-    init {
-        telemetryClient = TelemetryClient()
-    }
+    private var diagnosticInfo = ""
 
     @Throws(Exception::class)
     fun checkTransmission() {
         diagnosticInfo = ""
 
-        telemetryClient.disconnect()
+        client.disconnect()
 
         var retryLeft = 3
-        while (telemetryClient.onlineStatus == false && retryLeft > 0) {
-            telemetryClient.connect(DiagnosticChannelConnectionString)
+        while (client.onlineStatus == false && retryLeft > 0) {
+            client.connect(DiagnosticChannelConnectionString)
             retryLeft -= 1
         }
 
-        if (telemetryClient.onlineStatus == false) {
+        if (client.onlineStatus == false) {
             throw Exception("Unable to connect.")
         }
 
-        telemetryClient.send(TelemetryClient.DIAGNOSTIC_MESSAGE)
-        diagnosticInfo = telemetryClient.receive()
+        client.send(TelemetryClient.DIAGNOSTIC_MESSAGE)
+        diagnosticInfo = client.receive()
+    }
+
+    fun has(diagnosticInfo: String) {
+        assertEquals(diagnosticInfo, this.diagnosticInfo)
     }
 }

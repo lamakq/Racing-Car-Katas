@@ -2,7 +2,7 @@ package telemetrysystem
 
 import java.util.*
 
-class TelemetryClient {
+open class TelemetryClient {
 
     var onlineStatus: Boolean = false
         private set
@@ -16,10 +16,12 @@ class TelemetryClient {
         }
 
         // simulate the operation on a real modem
-        val success = connectionEventsSimulator.nextInt(10) <= 8
+        val success = wasConnectionSuccessful()
 
         onlineStatus = success
     }
+
+    open protected fun wasConnectionSuccessful() = connectionEventsSimulator.nextInt(10) <= 8
 
     fun disconnect() {
         onlineStatus = false
@@ -75,4 +77,8 @@ class TelemetryClient {
     companion object {
         val DIAGNOSTIC_MESSAGE = "AT#UD"
     }
+}
+
+class NullTelemetryClient(private val b: Boolean) : TelemetryClient() {
+    override fun wasConnectionSuccessful() = b
 }
